@@ -1,5 +1,6 @@
 {
   "name": "idas4you",
+  "description": "idas4you의 Claude Code 플러그인 모음 — 작업지시서 작성·검수·구현 스킬 등",
   "owner": { "name": "idas4you" },
   "plugins": [
     {
