@@ -8,6 +8,10 @@ Claude Code 플러그인 마켓플레이스. 플러그인은 `plugins/` 아래�
 
 ## 설치
 
+두 방법 중 하나로 한다. 결과는 같다.
+
+### 셸에서
+
 마켓플레이스를 등록한다(기기마다 한 번).
 
 ```bash
@@ -19,6 +23,20 @@ claude plugin marketplace add idas4you/claude-plugins
 ```bash
 claude plugin install workdoc@idas4you --scope user
 ```
+
+### Claude Code 세션 안에서
+
+`claude`를 실행한 뒤 입력창에 차례로 친다.
+
+```
+/plugin marketplace add idas4you/claude-plugins
+```
+
+```
+/plugin install workdoc@idas4you
+```
+
+`/plugin`만 치면 목록 화면에서 마켓플레이스와 플러그인을 골라 설치할 수 있다. 설치한 스킬은 새 세션부터 보인다(실행 중인 세션은 `/reload-plugins`).
 
 ## 갱신
 
