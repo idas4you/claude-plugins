@@ -56,8 +56,8 @@ claude plugin update workdoc@idas4you --scope user
 
 | 스킬 | 모델(`model:`) | effort(`effort:`) | 하는 일 |
 |---|---|---|---|
-| `/idas4you-doc <주제>` | `fable` | `medium` | 작업지시서(design.md·plan.md·tasks.md, 필요하면 ADR)를 쓰거나 고친다. 코드는 읽기만 한다 |
-| `/idas4you-doc-check <지시서 디렉터리>` | `fable` | `high` | 지시서를 구현 전에 검수한다(사실 대조·설계 동작·실행 가능성). 사실 오류만 바로 고치고 설계 결정은 보고만 한다. 구현에 쓸 모델을 tasks.md 머리의 `구현 모델 권장`에 적는다 |
+| `/idas4you-doc <주제>` | `fable` | `medium` | 작업지시서(design.md·plan.md·tasks.md, 필요하면 ADR)를 쓰거나 고친다. 코드는 읽기만 한다. 다 쓰면 바로 `/idas4you-doc-check`로 검수할지 묻는다 |
+| `/idas4you-doc-check <지시서 디렉터리>` | `fable` | `high` | 지시서를 구현 전에 검수한다(사실 대조·설계 동작·실행 가능성). 사실 오류만 바로 고치고 설계 결정은 보고만 한다. 구현에 쓸 모델을 tasks.md 머리의 `구현 모델 권장`에 적는다. 끝나면 판정에 맞춰 다음 걸음(`/idas4you-doc-impl` 등)을 추천 문장으로 남긴다 |
 | `/idas4you-doc-impl <지시서 디렉터리>` | `opus` | 세션 설정 | 지시서대로 기능 브랜치에서 구현·시험하고 결과를 지시서에 기록한다. `구현 모델 권장`이 `sonnet`·`fable`이면 그 단계의 코드 구현을 해당 모델 하위 에이전트에 맡긴다. 같은 단계를 두 번 고쳐도 통과하지 못하면 한 단계 위 모델로 올린다(`sonnet` → `opus` → `fable`). 시험을 통과해도 머지하지 않고 묻는다 |
 
 - **필요한 모델**: Fable과 Opus를 쓸 수 있는 계정이어야 의도대로 돈다(구현을 맡길 때는 Sonnet도 쓴다). 스킬의 `model:`·`effort:`는 스킬을 부른 턴에 세션 설정 대신 적용된다. 조직이 쓸 수 있는 모델을 제한했으면 `model:` 지정이 적용되지 않을 수 있다.
