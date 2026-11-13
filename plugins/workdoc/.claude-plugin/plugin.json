@@ -1,6 +1,6 @@
 {
   "name": "workdoc",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "작업지시서 흐름 — /idas4you-doc(Fable, 지시서 작성)·/idas4you-doc-check(Fable, 지시서 검수·구현 모델 추천)·/idas4you-doc-impl(Opus, 구현)·/idas4you-doc-done(Sonnet, 지시서 닫기). 저장소별 값은 그 저장소의 CLAUDE.md·AGENTS.md와 사용자 프로필에서 읽는다",
   "author": { "name": "idas4you" },
   "homepage": "https://github.com/idas4you/claude-plugins",
