@@ -1,12 +1,17 @@
 {
   "name": "idas4you",
-  "description": "idas4you의 Claude Code 플러그인 모음 — 작업지시서 작성·검수·구현 스킬 등",
+  "description": "idas4you의 Claude Code 플러그인 모음 — 작업지시서 작성·검수·구현 스킬, 세션 마무리 스킬 등",
   "owner": { "name": "idas4you" },
   "plugins": [
     {
       "name": "workdoc",
       "source": "./plugins/workdoc",
       "description": "작업지시서 흐름 — /idas4you-doc(Fable, 지시서 작성)·/idas4you-doc-check(Fable, 지시서 검수·구현 모델 추천)·/idas4you-doc-impl(Opus, 구현)·/idas4you-doc-done(Sonnet, 지시서 닫기)"
+    },
+    {
+      "name": "session",
+      "source": "./plugins/session",
+      "description": "세션 마무리 — /idas4you-end-check(Sonnet, 끝내기 전에 남은 것 점검)·/idas4you-end-summary(Opus, 세션에서 한 일을 마지막 메시지로 정리)"
     }
   ]
 }

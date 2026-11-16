@@ -5,6 +5,7 @@ Claude Code 플러그인 마켓플레이스. 플러그인은 `plugins/` 아래�
 | 플러그인 | 하는 일 |
 |---|---|
 | [`workdoc`](plugins/workdoc) | 작업지시서 흐름 — 지시서 작성 → 검수 → 구현 → 닫기 |
+| [`session`](plugins/session) | 세션 마무리 — 남은 것 점검 → 끝 정리 |
 
 ## 설치
 
@@ -66,6 +67,22 @@ claude plugin update workdoc@idas4you --scope user
 - 같은 이름의 다른 스킬이 있으면 `/workdoc:idas4you-doc`처럼 플러그인 이름을 붙여 부른다.
 - 저장소별 값(지시서 위치, ADR 위치, 브랜치 이름 규칙, 커밋 작성자, 시험·배포 명령)은 스킬에 박혀 있지 않다. 작업하는 저장소의 `CLAUDE.md`·`AGENTS.md`와 사용자 개인 안내에서 읽고, 없으면 스킬에 적힌 기본값(`docs/work/YYYY-MM-DD-<slug>/` 등)을 쓴다.
 - 쓰는 곳: Claude Code CLI, 데스크톱 앱 Code 탭(로컬 세션). claude.ai/code 웹 세션은 플러그인을 로드하지 않는다.
+
+## session
+
+세션을 끝낼 때 쓰는 스킬 두 개. 작업 종류와 상관없이 쓴다.
+
+```bash
+claude plugin install session@idas4you --scope user
+```
+
+| 스킬 | 모델(`model:`) | 하는 일 |
+|---|---|---|
+| `/idas4you-end-check` | `sonnet` | 끝내기 전에 남은 것을 찾아 표로 보여 준다 — 커밋 안 된 변경, push 안 된 커밋, 머지됐는데 남은 로컬·원격 브랜치와 워크트리, 뒤처진 기본 브랜치, stash, 띄워 둔 프로세스, 갱신 안 된 설치 플러그인. 찾기만 하고, 치우는 것은 묻고 나서 한다. 커밋 안 된 변경은 버리지 않는다 |
+| `/idas4you-end-summary` | `opus` | 세션에서 한 일·결정·바뀐 파일과 커밋·검증·남은 일을 채팅의 마지막 메시지로 정리한다. "끝 정리"라고 쳐도 된다. 세션 제목을 `MM-DD <핵심 작업> — <상태>`로 바꾼다(제목을 바꾸는 도구가 있는 데스크톱 앱에서만, 없으면 제안만 적는다) |
+
+- 순서는 `/idas4you-end-check`로 치운 뒤 `/idas4you-end-summary`로 정리한다. 서로를 자동으로 부르지 않는다.
+- "끝 정리"라는 말에 반응하는 다른 스킬(예: 개인 스킬 `~/.claude/skills/end-summary`)이 있으면 어느 쪽이 불릴지 정해지지 않는다. 하나만 남기거나 `/idas4you-end-summary`로 이름을 대고 부른다.
 
 ## 플러그인 추가
 
