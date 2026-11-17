@@ -1,7 +1,7 @@
 {
   "name": "session",
-  "version": "1.0.0",
-  "description": "세션 마무리 — /idas4you-end-check(Sonnet, 끝내기 전에 남은 것 점검: 커밋·push 안 된 것, 남은 브랜치·워크트리, 뒤처진 기본 브랜치)·/idas4you-end-summary(Opus, 세션에서 한 일을 마지막 메시지로 정리)",
+  "version": "1.1.0",
+  "description": "세션 마무리와 이어받기 — /idas4you-session-check(Sonnet, 끝내기 전에 남은 것 점검: 커밋·push 안 된 것, 남은 브랜치·워크트리, 뒤처진 기본 브랜치)·/idas4you-session-summary(Opus, 세션에서 한 일을 마지막 메시지와 파일로 정리)·/idas4you-session-resume(Sonnet, 지난 정리의 남은 일을 실제 상태와 대조해 이어받기)",
   "author": { "name": "idas4you" },
   "homepage": "https://github.com/idas4you/claude-plugins",
   "license": "MIT"

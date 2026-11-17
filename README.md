@@ -1,33 +1,37 @@
 # claude-plugins
 
-Claude Code 플러그인 마켓플레이스. 플러그인은 `plugins/` 아래에 하나씩 두고, 쓰는 것만 골라 설치한다.
+English | [한국어](README.ko.md)
 
-| 플러그인 | 하는 일 |
+A Claude Code plugin marketplace. Each plugin lives in its own directory under `plugins/`; install only the ones you use.
+
+| Plugin | What it does |
 |---|---|
-| [`workdoc`](plugins/workdoc) | 작업지시서 흐름 — 지시서 작성 → 검수 → 구현 → 닫기 |
-| [`session`](plugins/session) | 세션 마무리 — 남은 것 점검 → 끝 정리 |
+| [`workdoc`](plugins/workdoc) | Work-order flow: write a work order → review it → implement it → close it |
+| [`session`](plugins/session) | Session wrap-up and handoff: check for leftovers → summarize → resume in the next session |
 
-## 설치
+> **Language note.** The skills are written in Korean and produce Korean output. The documents they write use Korean field names and status values (for example `구현 모델 권장`, `우선순위`, `완료`). These appear below as they are written to disk, with an English gloss.
 
-두 방법 중 하나로 한다. 결과는 같다.
+## Install
 
-### 셸에서
+Use either method. The result is the same.
 
-마켓플레이스를 등록한다(기기마다 한 번).
+### From the shell
+
+Register the marketplace (once per machine).
 
 ```bash
 claude plugin marketplace add idas4you/claude-plugins
 ```
 
-플러그인을 설치한다.
+Install a plugin.
 
 ```bash
 claude plugin install workdoc@idas4you --scope user
 ```
 
-### Claude Code 세션 안에서
+### Inside a Claude Code session
 
-`claude`를 실행한 뒤 입력창에 차례로 친다.
+Start `claude`, then type these in the prompt, one after the other.
 
 ```
 /plugin marketplace add idas4you/claude-plugins
@@ -37,9 +41,9 @@ claude plugin install workdoc@idas4you --scope user
 /plugin install workdoc@idas4you
 ```
 
-`/plugin`만 치면 목록 화면에서 마켓플레이스와 플러그인을 골라 설치할 수 있다. 설치한 스킬은 새 세션부터 보인다(실행 중인 세션은 `/reload-plugins`).
+Typing `/plugin` alone opens a list where you can pick a marketplace and a plugin to install. Installed skills show up from the next session (in a running session, use `/reload-plugins`).
 
-## 갱신
+## Update
 
 ```bash
 claude plugin marketplace update idas4you
@@ -49,47 +53,50 @@ claude plugin marketplace update idas4you
 claude plugin update workdoc@idas4you --scope user
 ```
 
-갱신은 다음 세션부터 적용된다(실행 중인 세션은 `/reload-plugins`).
+Updates apply from the next session (in a running session, use `/reload-plugins`).
 
 ## workdoc
 
-작업을 "지시서 쓰기 → 지시서 검수 → 구현 → 닫기" 네 단계로 나누고, 단계마다 맞는 모델로 돌린다.
+Splits work into four steps (write the work order → review it → implement → close) and runs each step on the model that suits it.
 
-| 스킬 | 모델(`model:`) | effort(`effort:`) | 하는 일 |
+| Skill | Model (`model:`) | Effort (`effort:`) | What it does |
 |---|---|---|---|
-| `/idas4you-doc <주제>` | `fable` | `medium` | 작업지시서(design.md·plan.md·tasks.md, 필요하면 ADR)를 쓰거나 고친다. 코드는 읽기만 한다. 다 쓰면 바로 `/idas4you-doc-check`로 검수할지 묻는다 |
-| `/idas4you-doc-check <지시서 디렉터리>` | `fable` | `high` | 지시서를 구현 전에 검수한다(사실 대조·설계 동작·실행 가능성). 사실 오류만 바로 고치고 설계 결정은 보고만 한다. 구현에 쓸 모델을 tasks.md 머리의 `구현 모델 권장`에 적는다. 검수할 때마다 tasks.md `검수 이력` 표에 일시·판정을 한 줄씩 덧붙인다(두 번 검수하면 두 줄). 끝나면 판정에 맞춰 다음 걸음(`/idas4you-doc-impl` 등)을 추천 문장으로 남긴다 |
-| `/idas4you-doc-impl <지시서 디렉터리>` | `opus` | 세션 설정 | 지시서대로 기능 브랜치에서 구현·시험하고 결과를 지시서에 기록한다. `구현 모델 권장`이 `sonnet`·`fable`이면 그 단계의 코드 구현을 해당 모델 하위 에이전트에 맡긴다. 같은 단계를 두 번 고쳐도 통과하지 못하면 한 단계 위 모델로 올린다(`sonnet` → `opus` → `fable`). 시험을 통과해도 머지하지 않고 묻는다 |
-| `/idas4you-doc-done <지시서 디렉터리>` | `sonnet` | 세션 설정 | 끝난 지시서를 닫는다. 체크리스트·검증 표·머지·미결 질문을 확인해 빠진 것이 있으면 닫지 않고 보고한다. 지시서·인덱스·ADR의 상태를 `완료`로 바꾸고, 이 지시서에 막혀 있던 지시서를 풀고, 다음에 할 지시서를 추천한다. 뒤에 `중단`·`대체됨 <새 지시서>`를 붙이면 그 상태로 닫는다. 머지·배포는 하지 않는다 |
+| `/idas4you-doc <topic>` | `fable` | `medium` | Writes or edits a work order (design.md, plan.md, tasks.md, and an ADR when needed). Reads code but does not change it. When done, asks whether to review it right away with `/idas4you-doc-check` |
+| `/idas4you-doc-check <work-order dir>` | `fable` | `high` | Reviews the work order before implementation (fact check against the code, whether the design works, whether it can be executed as written). Fixes factual errors directly and only reports design decisions. Writes the model to implement with into the `구현 모델 권장` (recommended implementation model) row at the top of tasks.md. Appends one row with the time and verdict to the `검수 이력` (review history) table in tasks.md on every run, so two reviews leave two rows. Ends with a recommended next step (such as `/idas4you-doc-impl`) that matches the verdict |
+| `/idas4you-doc-impl <work-order dir>` | `opus` | session setting | Implements and tests the work order on a feature branch and records the results in the work order. If `구현 모델 권장` is `sonnet` or `fable`, hands the coding for that step to a subagent on that model. If a step still fails after two fix attempts, moves it up one model (`sonnet` → `opus` → `fable`). Asks before merging, even when tests pass |
+| `/idas4you-doc-done <work-order dir>` | `sonnet` | session setting | Closes a finished work order. Checks the checklist, verification table, merge state, and open questions; if anything is missing, it reports instead of closing. Sets the status of the work order, the index, and the ADR to `완료` (done), unblocks work orders that were waiting on this one, and recommends the next one. Append `중단` (stopped) or `대체됨 <new work order>` (superseded) to close with that status. Does not merge or deploy |
 
-- **우선순위**: 지시서마다 상·중·하를 인덱스(`docs/work/README.md`)의 `우선순위` 칸에 적는다. `/idas4you-doc`이 지시서를 쓴 뒤 스스로 판단해 적고(운영 장애·기한·다른 지시서를 막고 있는지), `/idas4you-doc-check`가 검수 때 다시 판단한다. 사용자가 바꾼 값은 `(사용자 지정)` 표시가 붙어 자동 판단이 덮어쓰지 않는다. `/idas4you-doc-impl`을 지시서 경로 없이 부르면 선행 지시서가 끝난 것 중 우선순위가 가장 높은 것을 제안한다.
-- **필요한 모델**: Fable과 Opus를 쓸 수 있는 계정이어야 의도대로 돈다(구현을 맡길 때와 지시서를 닫을 때는 Sonnet도 쓴다). 스킬의 `model:`·`effort:`는 스킬을 부른 턴에 세션 설정 대신 적용된다. 조직이 쓸 수 있는 모델을 제한했으면 `model:` 지정이 적용되지 않을 수 있다.
-- 같은 이름의 다른 스킬이 있으면 `/workdoc:idas4you-doc`처럼 플러그인 이름을 붙여 부른다.
-- 저장소별 값(지시서 위치, ADR 위치, 브랜치 이름 규칙, 커밋 작성자, 시험·배포 명령)은 스킬에 박혀 있지 않다. 작업하는 저장소의 `CLAUDE.md`·`AGENTS.md`와 사용자 개인 안내에서 읽고, 없으면 스킬에 적힌 기본값(`docs/work/YYYY-MM-DD-<slug>/` 등)을 쓴다.
-- 쓰는 곳: Claude Code CLI, 데스크톱 앱 Code 탭(로컬 세션). claude.ai/code 웹 세션은 플러그인을 로드하지 않는다.
+- **Priority**: each work order gets `상`/`중`/`하` (high/medium/low) in the `우선순위` (priority) column of the index (`docs/work/README.md`). `/idas4you-doc` decides it after writing the work order (production incident, deadline, whether it blocks other work orders), and `/idas4you-doc-check` re-evaluates it during review. A value you change is marked `(사용자 지정)` (set by user) and is never overwritten automatically. Calling `/idas4you-doc-impl` without a path proposes the highest-priority work order whose prerequisites are done.
+- **Models required**: the account needs access to Fable and Opus for this to run as intended (Sonnet is also used when implementation is delegated and when closing a work order). A skill's `model:` and `effort:` apply for the turn that invokes the skill, in place of the session setting. If your organization restricts available models, `model:` may not take effect.
+- If another skill has the same name, call it with the plugin name, as in `/workdoc:idas4you-doc`.
+- Repository-specific values (work-order location, ADR location, branch naming, commit author, test and deploy commands) are not hard-coded in the skills. They are read from the repository's `CLAUDE.md` and `AGENTS.md` and from your personal instructions; when absent, the defaults written in the skills apply (such as `docs/work/YYYY-MM-DD-<slug>/`).
+- Where it runs: the Claude Code CLI and the desktop app's Code tab (local sessions). claude.ai/code web sessions do not load plugins.
 
 ## session
 
-세션을 끝낼 때 쓰는 스킬 두 개. 작업 종류와 상관없이 쓴다.
+Three skills for ending a session and picking it up in the next one. They work for any kind of task.
 
 ```bash
 claude plugin install session@idas4you --scope user
 ```
 
-| 스킬 | 모델(`model:`) | 하는 일 |
+| Skill | Model (`model:`) | What it does |
 |---|---|---|
-| `/idas4you-end-check` | `sonnet` | 끝내기 전에 남은 것을 찾아 표로 보여 준다 — 커밋 안 된 변경, push 안 된 커밋, 머지됐는데 남은 로컬·원격 브랜치와 워크트리, 뒤처진 기본 브랜치, stash, 띄워 둔 프로세스, 갱신 안 된 설치 플러그인. 찾기만 하고, 치우는 것은 묻고 나서 한다. 커밋 안 된 변경은 버리지 않는다 |
-| `/idas4you-end-summary` | `opus` | 세션에서 한 일·결정·바뀐 파일과 커밋·검증·남은 일을 채팅의 마지막 메시지로 정리한다. "끝 정리"라고 쳐도 된다. 세션 제목을 `MM-DD <핵심 작업> — <상태>`로 바꾼다(제목을 바꾸는 도구가 있는 데스크톱 앱에서만, 없으면 제안만 적는다) |
+| `/idas4you-session-check` | `sonnet` | Before you end a session, finds what is left over and shows it in a table: uncommitted changes, unpushed commits, merged local and remote branches and worktrees that are still around, a default branch that is behind, stashes, processes left running, and installed plugins that are out of date. It only finds things; it asks before cleaning anything up, and it never discards uncommitted changes |
+| `/idas4you-session-summary` | `opus` | Summarizes the session as the last message in the chat: what was done, decisions, changed files and commits, verification, and remaining work. Typing "끝 정리" (wrap up) also triggers it. Renames the session to `MM-DD <main task> — <status>` (only in the desktop app, where a tool for that exists; otherwise it writes the suggested title). Saves the same summary as a file under `~/.claude/session-notes/<repo name>/` |
+| `/idas4you-session-resume [topic]` | `sonnet` | Picks up a previous session. Finds this repository's summary files that still have remaining work, compares them with the current state (commits since then, branches, the work order's tasks.md), marks each item as remaining, done, or could not verify, and proposes what to start with. It does not start the work itself. Closes a summary once all of its remaining work is done |
 
-- 순서는 `/idas4you-end-check`로 치운 뒤 `/idas4you-end-summary`로 정리한다. 서로를 자동으로 부르지 않는다.
-- "끝 정리"라는 말에 반응하는 다른 스킬(예: 개인 스킬 `~/.claude/skills/end-summary`)이 있으면 어느 쪽이 불릴지 정해지지 않는다. 하나만 남기거나 `/idas4you-end-summary`로 이름을 대고 부른다.
+- The order is: clean up with `/idas4you-session-check`, summarize with `/idas4you-session-summary`, then pick up in the next session with `/idas4you-session-resume`. The skills do not call each other automatically.
+- Summary files accumulate in your home directory (`~/.claude/session-notes`), not in the repository. They stay out of your commits, but they are not shared across machines. Worktree sessions are grouped under the main repository's name. Files are never deleted automatically.
+- In 1.1.0, `/idas4you-end-check` and `/idas4you-end-summary` from 1.0.0 were renamed to `/idas4you-session-check` and `/idas4you-session-summary`.
+- If another skill also responds to "끝 정리" (for example a personal skill at `~/.claude/skills/end-summary`), which one runs is not defined. Keep only one, or call `/idas4you-session-summary` by name.
 
-## 플러그인 추가
+## Adding a plugin
 
-1. `plugins/<이름>/.claude-plugin/plugin.json`과 `plugins/<이름>/skills/<스킬>/SKILL.md`를 만든다.
-2. `.claude-plugin/marketplace.json`의 `plugins`에 항목을 추가한다.
-3. 위 표에 한 줄 추가한다. 플러그인을 고칠 때는 `plugin.json`의 `version`을 올린다.
+1. Create `plugins/<name>/.claude-plugin/plugin.json` and `plugins/<name>/skills/<skill>/SKILL.md`.
+2. Add an entry to `plugins` in `.claude-plugin/marketplace.json`.
+3. Add a row to the table above in both READMEs (`README.md` and `README.ko.md`). When you change a plugin, bump `version` in its `plugin.json`.
 
-## 라이선스
+## License
 
 [MIT](LICENSE)

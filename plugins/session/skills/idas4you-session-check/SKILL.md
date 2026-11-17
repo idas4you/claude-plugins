@@ -1,6 +1,6 @@
 ---
-name: idas4you-end-check
-description: 세션을 끝내기 전에 남은 것을 찾아 목록으로 보여 준다 — 커밋 안 된 변경, push 안 된 커밋, 머지됐는데 남은 브랜치·워크트리, 뒤처진 기본 브랜치, 갱신 안 된 설치 플러그인. 찾기만 하고, 치우는 것은 묻고 나서 한다. "뒷정리 점검해줘", "남은 거 있나 봐줘", "끝내기 전에 확인해줘", "/idas4you-end-check"일 때 쓴다. 세션 내용을 정리하는 것은 /idas4you-end-summary.
+name: idas4you-session-check
+description: 세션을 끝내기 전에 남은 것을 찾아 목록으로 보여 준다 — 커밋 안 된 변경, push 안 된 커밋, 머지됐는데 남은 브랜치·워크트리, 뒤처진 기본 브랜치, 갱신 안 된 설치 플러그인. 찾기만 하고, 치우는 것은 묻고 나서 한다. "뒷정리 점검해줘", "남은 거 있나 봐줘", "끝내기 전에 확인해줘", "/idas4you-session-check"일 때 쓴다. 세션 내용을 정리하는 것은 /idas4you-session-summary.
 model: sonnet
 ---
 
@@ -57,7 +57,7 @@ model: sonnet
 - 저장소 안내가 금지한 것(기본 브랜치 직접 push 등)은 하지 않고 안내를 댄다.
 - 치운 뒤 걸렸던 항목을 다시 확인해 결과를 한 줄씩 적는다.
 
-마지막 줄에 "세션 내용 정리는 `/idas4you-end-summary`"를 남긴다. 직접 부르지는 않는다.
+마지막 줄에 "세션 내용 정리는 `/idas4you-session-summary`"를 남긴다. 직접 부르지는 않는다.
 
 ## 하지 않는 일
 
