@@ -77,7 +77,7 @@ Splits work into four steps (write the work order → review it → implement �
 
 ## session
 
-Three skills for ending a session and picking it up in the next one. They work for any kind of task.
+Skills for ending a session, picking it up in the next one, and renaming it. They work for any kind of task.
 
 ```bash
 claude plugin install session@idas4you --scope user
@@ -88,6 +88,7 @@ claude plugin install session@idas4you --scope user
 | `/idas4you-session-check` | `sonnet` | Before you end a session, finds what is left over and shows it in a table: uncommitted changes, unpushed commits, merged local and remote branches and worktrees that are still around, a default branch that is behind, stashes, processes left running, and installed plugins that are out of date. It only finds things; it asks before cleaning anything up, and it never discards uncommitted changes |
 | `/idas4you-session-summary` | `opus` | Summarizes the session as the last message in the chat: what was done, decisions, changed files and commits, verification, and remaining work. Typing "끝 정리" (wrap up) also triggers it. Renames the session to `MM-DD <main task> — <status>` (only in the desktop app, where a tool for that exists; otherwise it writes the suggested title). Saves the same summary as a file under `~/.claude/session-notes/<repo name>/` |
 | `/idas4you-session-resume [topic]` | `sonnet` | Picks up a previous session. Finds this repository's summary files that still have remaining work, compares them with the current state (commits since then, branches, the work order's tasks.md), marks each item as remaining, done, or could not verify, and proposes what to start with. It does not start the work itself. Closes a summary once all of its remaining work is done |
+| `/idas4you-session-rename [title]` | `sonnet` | Renames only the session (chat) to `MM-DD <main task> — <status>`, based on the conversation. Writes no summary message and no summary file. Can be called mid-session. If you pass a title, it uses that as given. Works only in the desktop app, where a tool for renaming exists; otherwise it writes the suggested title |
 
 - The order is: clean up with `/idas4you-session-check`, summarize with `/idas4you-session-summary`, then pick up in the next session with `/idas4you-session-resume`. The skills do not call each other automatically.
 - Summary files accumulate in your home directory (`~/.claude/session-notes`), not in the repository. They stay out of your commits, but they are not shared across machines. Worktree sessions are grouped under the main repository's name. Files are never deleted automatically.

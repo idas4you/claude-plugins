@@ -75,7 +75,7 @@ claude plugin update workdoc@idas4you --scope user
 
 ## session
 
-세션을 끝낼 때와 다음 세션에서 이어받을 때 쓰는 스킬 세 개. 작업 종류와 상관없이 쓴다.
+세션을 끝낼 때와 다음 세션에서 이어받을 때, 세션 제목을 바꿀 때 쓰는 스킬. 작업 종류와 상관없이 쓴다.
 
 ```bash
 claude plugin install session@idas4you --scope user
@@ -86,6 +86,7 @@ claude plugin install session@idas4you --scope user
 | `/idas4you-session-check` | `sonnet` | 끝내기 전에 남은 것을 찾아 표로 보여 준다 — 커밋 안 된 변경, push 안 된 커밋, 머지됐는데 남은 로컬·원격 브랜치와 워크트리, 뒤처진 기본 브랜치, stash, 띄워 둔 프로세스, 갱신 안 된 설치 플러그인. 찾기만 하고, 치우는 것은 묻고 나서 한다. 커밋 안 된 변경은 버리지 않는다 |
 | `/idas4you-session-summary` | `opus` | 세션에서 한 일·결정·바뀐 파일과 커밋·검증·남은 일을 채팅의 마지막 메시지로 정리한다. "끝 정리"라고 쳐도 된다. 세션 제목을 `MM-DD <핵심 작업> — <상태>`로 바꾼다(제목을 바꾸는 도구가 있는 데스크톱 앱에서만, 없으면 제안만 적는다). 같은 정리를 `~/.claude/session-notes/<저장소 이름>/`에 파일로도 남긴다 |
 | `/idas4you-session-resume [주제]` | `sonnet` | 지난 세션을 이어받는다. 이 저장소의 정리 파일 중 "남은 일"이 있는 것을 찾아 지금 실제 상태(그 뒤의 커밋, 브랜치, 지시서의 tasks.md)와 대조하고, 항목마다 남음·끝남·확인하지 못함으로 갈라 보여 준 뒤 무엇부터 할지 제안한다. 작업을 직접 시작하지는 않는다. 남은 일이 모두 끝난 정리는 닫는다 |
+| `/idas4you-session-rename [제목]` | `sonnet` | 대화를 바탕으로 세션(채팅) 제목만 `MM-DD <핵심 작업> — <상태>`로 바꾼다. 정리 메시지와 정리 파일은 남기지 않는다. 세션 도중에 불러도 된다. 제목을 인자로 주면 그 말을 그대로 쓴다. 제목을 바꾸는 도구가 있는 데스크톱 앱에서만 바뀌고, 없으면 제안 제목을 적는다 |
 
 - 순서는 `/idas4you-session-check`로 치운 뒤 `/idas4you-session-summary`로 정리하고, 다음 세션에서 `/idas4you-session-resume`으로 이어받는다. 서로를 자동으로 부르지 않는다.
 - 정리 파일은 저장소가 아니라 홈 디렉터리(`~/.claude/session-notes`)에 쌓인다. 커밋에 섞이지 않는 대신 다른 기기와 공유되지 않는다. 워크트리 세션은 본 저장소 이름으로 묶인다. 자동으로 지우지 않는다.

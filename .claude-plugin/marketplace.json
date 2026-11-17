@@ -11,7 +11,7 @@
     {
       "name": "session",
       "source": "./plugins/session",
-      "description": "세션 마무리와 이어받기 — /idas4you-session-check(Sonnet, 끝내기 전에 남은 것 점검)·/idas4you-session-summary(Opus, 세션에서 한 일을 마지막 메시지와 파일로 정리)·/idas4you-session-resume(Sonnet, 지난 정리의 남은 일 이어받기)"
+      "description": "세션 마무리와 이어받기 — /idas4you-session-check(Sonnet, 끝내기 전에 남은 것 점검)·/idas4you-session-summary(Opus, 세션에서 한 일을 마지막 메시지와 파일로 정리)·/idas4you-session-resume(Sonnet, 지난 정리의 남은 일 이어받기)·/idas4you-session-rename(Sonnet, 세션 제목만 바꾸기)"
     }
   ]
 }
